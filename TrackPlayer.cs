@@ -40,34 +40,55 @@ namespace ModPlayer
 			Audio.StopEngine();
 		}
 
-		internal static void Play(SoundClip soundClip, int track, float speed = 1.0f)
+		internal static void Play(SoundClip soundClip, int track, float speed = 1.0f, int start = 0)
 		{
-			if (soundClip.Buffer == null)
+			if (soundClip.Buffers == null)
 				Load(soundClip);
 
 			Tracks[track].Stop();
 			Tracks[track].FlushSourceBuffers();
 
-			Tracks[track].SetFrequencyRatio(speed);
-			Tracks[track].SubmitSourceBuffer(soundClip.Buffer, null);
+			if (start < soundClip.Pointer.Size)
+			{
+				Tracks[track].SetFrequencyRatio(speed);
+				soundClip.Buffers[track].PlayBegin = start;
+				Tracks[track].SubmitSourceBuffer(soundClip.Buffers[track], null);
 
-			Tracks[track].Start();
+				Tracks[track].Start();
+			}
+		}
+
+		internal static void Stop()
+		{
+			for (var track = 0; track < Tracks.Length; track++)
+			{
+				Tracks[track].Stop();
+				Tracks[track].FlushSourceBuffers();
+			}
 		}
 
 		internal static void Load(SoundClip soundClip)
 		{
+			if (Tracks == null)
+				return;
+
 			soundClip.Pointer = new DataPointer(Utilities.AllocateMemory(soundClip.Data.Length), soundClip.Data.Length);
 
 			if(soundClip.Data.Length != 0)
 				soundClip.Pointer.CopyFrom(soundClip.Data);
 
-			soundClip.Buffer = new AudioBuffer(soundClip.Pointer);
+			soundClip.Buffers = new AudioBuffer[Tracks.Length];
 
-			if (soundClip.RepeatCount != 0)
+			for (var buffer = 0; buffer < soundClip.Buffers.Length; buffer++)
 			{
-				soundClip.Buffer.LoopCount = soundClip.RepeatCount;
-				soundClip.Buffer.LoopBegin = soundClip.RepeatStart;
-				soundClip.Buffer.LoopLength = soundClip.RepeatEnd - soundClip.RepeatStart;
+				soundClip.Buffers[buffer] = new AudioBuffer(soundClip.Pointer);
+
+				if (soundClip.RepeatCount != 0)
+				{
+					soundClip.Buffers[buffer].LoopCount = soundClip.RepeatCount == -1 ? 255 : soundClip.RepeatCount;
+					soundClip.Buffers[buffer].LoopBegin = soundClip.RepeatStart;
+					soundClip.Buffers[buffer].LoopLength = soundClip.RepeatEnd - soundClip.RepeatStart;
+				}
 			}
 		}
 
@@ -78,7 +99,7 @@ namespace ModPlayer
 			internal int RepeatStart;
 			internal int RepeatEnd;
 
-			internal AudioBuffer Buffer;
+			internal AudioBuffer[] Buffers;
 			internal DataPointer Pointer;
 		}
 	}

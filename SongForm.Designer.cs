@@ -30,7 +30,7 @@ namespace ModPlayer
 		private void InitializeComponent()
 		{
 			this.PlayButton = new System.Windows.Forms.Button();
-			this.stopButton = new System.Windows.Forms.Button();
+			this.StopButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// PlayButton
@@ -44,19 +44,19 @@ namespace ModPlayer
 			// 
 			// stopButton
 			// 
-			this.stopButton.Location = new System.Drawing.Point(632, 415);
-			this.stopButton.Name = "stopButton";
-			this.stopButton.Size = new System.Drawing.Size(75, 23);
-			this.stopButton.TabIndex = 1;
-			this.stopButton.Text = "Stop";
-			this.stopButton.UseVisualStyleBackColor = true;
+			this.StopButton.Location = new System.Drawing.Point(632, 415);
+			this.StopButton.Name = "stopButton";
+			this.StopButton.Size = new System.Drawing.Size(75, 23);
+			this.StopButton.TabIndex = 1;
+			this.StopButton.Text = "Stop";
+			this.StopButton.UseVisualStyleBackColor = true;
 			// 
 			// SongForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.stopButton);
+			this.Controls.Add(this.StopButton);
 			this.Controls.Add(this.PlayButton);
 			this.Name = "SongForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -68,6 +68,6 @@ namespace ModPlayer
 		#endregion
 
 		public System.Windows.Forms.Button PlayButton;
-		public System.Windows.Forms.Button stopButton;
+		public System.Windows.Forms.Button StopButton;
 	}
 }

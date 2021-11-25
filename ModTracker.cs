@@ -17,13 +17,14 @@ namespace ModPlayer
 
 			for (var sample = 0; sample < SoundClips.Length; sample++)
 			{
-				SoundClips[sample] = new TrackPlayer.SoundClip();
-
-				SoundClips[sample].Data = ModSong.Samples[sample].Select(x => (byte)((int)x + 128)).ToArray();
+				SoundClips[sample] = new TrackPlayer.SoundClip
+				{
+					Data = ModSong.Samples[sample].Select(x => (byte)((int)x + 128)).ToArray()
+				};
 
 				if (ModSong.SampleRepeatLength[sample] > 2)
 				{
-					SoundClips[sample].RepeatCount = 255;
+					SoundClips[sample].RepeatCount = -1;
 					SoundClips[sample].RepeatStart = ModSong.SampleRepeatStart[sample];
 					SoundClips[sample].RepeatEnd = ModSong.SampleRepeatStart[sample] + ModSong.SampleRepeatLength[sample];
 				}
@@ -45,11 +46,11 @@ namespace ModPlayer
 
 				if (ModPlayer.ChannelTriggers[channel])
 				{
-					float speed = 1.0f / (ModPlayer.ChannelPitches[channel] / 428.0f);
+					float speed = 1.0f / ((ModPlayer.ChannelPitches[channel] - ModPlayer.ChannelTunings[channel]) / 428.0f);
 
 					//Console.WriteLine(channel.ToString() + ": " + ModPlayer.ChannelSamples[channel].ToString("X2") + ": " + speed);
 					
-					TrackPlayer.Play(SoundClips[ModPlayer.ChannelSamples[channel]], channel, speed);
+					TrackPlayer.Play(SoundClips[ModPlayer.ChannelSamples[channel]], channel, speed, ModPlayer.ChannelStart[channel]);
 				}
 			}
 		}

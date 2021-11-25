@@ -19,7 +19,7 @@ namespace ModPlayer
 			Form = new SongForm();
 
 			Form.PlayButton.Click += PlayButton_Click;
-			Form.stopButton.Click += StopButton_Click;
+			Form.StopButton.Click += StopButton_Click;
 
 			Application.Run(Form);
 		}
@@ -27,6 +27,8 @@ namespace ModPlayer
 		private static void StopButton_Click(object sender, EventArgs e)
 		{
 			Timer.Change(0, System.Threading.Timeout.Infinite);
+
+			TrackPlayer.Stop();
 		}
 
 		private static void PlayButton_Click(object sender, EventArgs e)
@@ -38,12 +40,12 @@ namespace ModPlayer
 
 		private static void Timer_Elapsed(object state)
 		{
-			Timer.Change(0, System.Threading.Timeout.Infinite);
+			//Timer.Change(0, System.Threading.Timeout.Infinite);
 
 			ModPlayer.Update();
 			ModTracker.Update();
 
-			Timer.Change(0, 10);
+			//Timer.Change(0, 10);
 		}
 	}
 }

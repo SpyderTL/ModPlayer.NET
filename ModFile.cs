@@ -2,7 +2,7 @@
 
 namespace ModPlayer
 {
-	internal class ModFile
+	internal static class ModFile
 	{
 		internal static byte[] Data;
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModPlayer
 {
-	internal class ModReader
+	internal static class ModReader
 	{
 		internal static bool Read()
 		{
